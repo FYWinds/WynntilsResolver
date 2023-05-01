@@ -1,0 +1,46 @@
+[tool.pdm]
+
+[project]
+name = "WynntilsResolver"
+version = "0.1.0"
+description = "A simple resolver to analyze wynntils' coded equipment in chat."
+authors = [
+    {name = "FYWinds", email = "i@windis.cn"},
+]
+dependencies = [
+    "typer[all]==0.8.0",
+]
+requires-python = ">=3.9"
+readme = "readme.md"
+license = {text = "MIT"}
+keywords = ["wynntils", "resolver", "wynncraft"]
+classifiers = [
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+[project.urls]
+Homepage = "https://github.com/fywinds/WynntilsResolver"
+Repository = "https://github.com/fywinds/WynntilsResolver"
+Documentation = "https://github.com/fywinds/WynntilsResolver"
+Changelog = "https://github.com/fywinds/WynntilsResolver"
+
+
+
+[project.optional-dependencies]
+dev = [
+    "black==23.3.0",
+    "ruff==0.0.263",
+]
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm.build]
+package-dir="wynntilsresolver"
+
+
+[tool.ruff]
+src = ["src"]
