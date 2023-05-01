@@ -2,7 +2,7 @@
 ## A simple resolver to anaslyeze wynntils' coded equipment in chat.
 
 ### Built on
-[![Python 3.9](https://img.shields.io/badge/python%203.8-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://www.python.org/)
+[![Python 3.8](https://img.shields.io/badge/python%203.8-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://www.python.org/)
 
 ### Install
 ```bash

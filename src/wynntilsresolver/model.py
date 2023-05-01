@@ -2,7 +2,7 @@
 Author       : FYWinds i@windis.cn
 Date         : 2023-05-01 09:20:21
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2023-05-01 13:53:18
+LastEditTime : 2023-05-01 14:40:10
 FilePath     : /src/wynntilsresolver/model.py
 
 Copyright (c) 2023 by FYWinds
@@ -12,9 +12,9 @@ should mark the original author's name.
 """
 
 import dataclasses
+import json
 from enum import Enum
 from typing import List
-import json
 
 
 class Powder(Enum):
@@ -44,7 +44,7 @@ class Item:
     """Rerolls of the item"""
 
 
-class CustomeEncoder(json.JSONEncoder):
+class CustomEncoder(json.JSONEncoder):
     def default(self, obj):
         if type(obj) is Powder:
             return str(obj)
@@ -54,4 +54,4 @@ class CustomeEncoder(json.JSONEncoder):
             return json.JSONEncoder.default(self, obj)
 
 
-__all__ = ["Item", "CustomeEncoder", "Powder"]
+__all__ = ["Item", "CustomEncoder", "Powder"]
