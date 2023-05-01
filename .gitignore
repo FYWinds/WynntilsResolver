@@ -1,6 +1,8 @@
+# python
 build/**
 dist/**
-
 **.pyc
-
 test.py
+
+# pdm
+.pdm.toml

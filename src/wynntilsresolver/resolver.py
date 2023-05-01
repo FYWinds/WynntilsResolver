@@ -2,21 +2,21 @@
 Author       : FYWinds i@windis.cn
 Date         : 2023-05-01 09:08:08
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2023-05-01 10:29:48
-FilePath     : /src/resolver.py
+LastEditTime : 2023-05-01 11:30:04
+FilePath     : /wynntilsresolver/resolver.py
 
 Copyright (c) 2023 by FYWinds
 All Rights Reserved.
 Any modifications or distributions of the file
 should mark the original author's name.
 """
-import re
-
-from .exceptions import ItemNotValidError
-from re import Pattern
-from .model import Item, Powder
 import dataclasses
 import math
+import re
+from re import Pattern
+
+from .exceptions import ItemNotValidError
+from .model import Item, Powder
 
 _START = chr(0xF5FF0)
 _END = chr(0xF5FF1)

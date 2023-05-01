@@ -13,9 +13,14 @@ class Powder(Enum):
 @dataclass(frozen=True)
 class Item:
     name: str
+    """The name of the item"""
     ids: list[float]
+    """The roll values of the item, sorted in wynntils' item identification order
+    Can calculate by multiplying the id's base value"""
     powders: list[Powder]
+    """Powders on the item, without tier"""
     rerolls: int
+    """Rerolls of the item"""
 
 
 __all__ = ["Item"]
