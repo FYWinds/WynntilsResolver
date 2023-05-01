@@ -1,5 +1,19 @@
-from dataclasses import dataclass
+"""
+Author       : FYWinds i@windis.cn
+Date         : 2023-05-01 09:20:21
+LastEditors  : FYWinds i@windis.cn
+LastEditTime : 2023-05-01 12:31:40
+FilePath     : /src/wynntilsresolver/model.py
+
+Copyright (c) 2023 by FYWinds
+All Rights Reserved.
+Any modifications or distributions of the file
+should mark the original author's name.
+"""
+
+import dataclasses
 from enum import Enum
+import json
 
 
 class Powder(Enum):
@@ -9,8 +23,14 @@ class Powder(Enum):
     FIRE = 3
     AIR = 4
 
+    def __repr__(self) -> str:
+        return self.name
 
-@dataclass(frozen=True)
+    def __str__(self) -> str:
+        return self.name
+
+
+@dataclasses.dataclass(frozen=True)
 class Item:
     name: str
     """The name of the item"""
@@ -23,4 +43,14 @@ class Item:
     """Rerolls of the item"""
 
 
-__all__ = ["Item"]
+class CustomeEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if type(obj) is Powder:
+            return str(obj)
+        elif dataclasses.is_dataclass(obj):
+            return dataclasses.asdict(obj)
+        else:
+            return json.JSONEncoder.default(self, obj)
+
+
+__all__ = ["Item", "CustomeEncoder", "Powder"]

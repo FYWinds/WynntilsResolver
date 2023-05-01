@@ -10,13 +10,13 @@ All Rights Reserved.
 Any modifications or distributions of the file
 should mark the original author's name.
 """
-import dataclasses
 import math
 import re
 from re import Pattern
+import json
 
 from .exceptions import ItemNotValidError
-from .model import Item, Powder
+from .model import Item, Powder, CustomeEncoder
 
 _START = chr(0xF5FF0)
 _END = chr(0xF5FF1)
@@ -60,7 +60,7 @@ class Resolver:
             raise ItemNotValidError(f"Given text {text} is not a valid encoded item.")
 
     def decode_to_json(self, text) -> dict:
-        return dataclasses.asdict(self.decode(text))
+        return json.loads(json.dumps(self.decode(text), cls=CustomeEncoder))
 
     def _decode_powders(self, powders: list[int]) -> list[Powder]:
         powders.reverse()
