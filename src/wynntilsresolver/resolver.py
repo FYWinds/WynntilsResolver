@@ -10,13 +10,14 @@ All Rights Reserved.
 Any modifications or distributions of the file
 should mark the original author's name.
 """
+import dataclasses
 import math
 import re
 from re import Pattern
-import json
+from typing import List
 
 from .exceptions import ItemNotValidError
-from .model import Item, Powder, CustomeEncoder
+from .model import Item, Powder
 
 _START = chr(0xF5FF0)
 _END = chr(0xF5FF1)
@@ -24,7 +25,7 @@ _SEP = chr(0xF5FF2)
 _RANGE = "[" + chr(0xF5000) + "-" + chr(0xF5F00) + "]"
 _OFFSET = chr(0xF5000)
 
-_ENCODED_PATTERN = re.compile(
+_ENCODED_PATTERN = (
     _START
     + r"(?P<Name>.+?)"
     + _SEP
@@ -42,14 +43,14 @@ _ENCODED_PATTERN = re.compile(
 
 
 class Resolver:
-    def __init__(self, pattern: Pattern = _ENCODED_PATTERN):
-        self.pattern = pattern
+    def __init__(self, pattern: str = _ENCODED_PATTERN):
+        self.pattern = re.compile(pattern)
 
     def get_pattern(self) -> Pattern:
         return self.pattern
 
     def decode(self, text: str) -> Item:
-        if m := _ENCODED_PATTERN.match(text):
+        if m := self.pattern.match(text):
             name = m.group("Name")
             ids = self._decode_numbers(m.group("Ids"))
             powders = self._decode_numbers(m.group("Powders"))
@@ -60,9 +61,9 @@ class Resolver:
             raise ItemNotValidError(f"Given text {text} is not a valid encoded item.")
 
     def decode_to_json(self, text) -> dict:
-        return json.loads(json.dumps(self.decode(text), cls=CustomeEncoder))
+        return dataclasses.asdict(self.decode(text))
 
-    def _decode_powders(self, powders: list[int]) -> list[Powder]:
+    def _decode_powders(self, powders: List[int]) -> List[Powder]:
         powders.reverse()
         plist = []
         for powderNum in powders:
@@ -78,7 +79,7 @@ class Resolver:
             decoded += chr(value)
         return decoded
 
-    def _decode_numbers(self, text: str) -> list[int]:
+    def _decode_numbers(self, text: str) -> List[int]:
         decoded: list[int] = []
         for i in text:
             decoded.append(ord(i) - ord(_OFFSET))

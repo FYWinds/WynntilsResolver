@@ -84,6 +84,7 @@ summary = "Render rich text, tables, progress bars, syntax highlighting, markdow
 dependencies = [
     "markdown-it-py<3.0.0,>=2.2.0",
     "pygments<3.0.0,>=2.13.0",
+    "typing-extensions<5.0,>=4.0.0; python_version < \"3.9\"",
 ]
 
 [[package]]
@@ -134,7 +135,7 @@ summary = "Backported and Experimental Type Hints for Python 3.7+"
 
 [metadata]
 lock_version = "4.1"
-content_hash = "sha256:1360927e5d421883130c63d6c8259044b32243d2bc17b4f94f31aefb58008d53"
+content_hash = "sha256:766cff97f57d0c3ed3df2162fc7cf4a7e543ae1dcf82d6ffc1a9466a5015d12d"
 
 [metadata.files]
 "black 23.3.0" = [

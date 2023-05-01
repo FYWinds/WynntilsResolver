@@ -6,3 +6,6 @@ test.py
 
 # pdm
 .pdm.toml
+
+# Vscode
+**.code-workspace
