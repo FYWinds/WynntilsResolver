@@ -2,14 +2,11 @@
 name = "WynntilsResolver"
 version = "0.1.3"
 description = "A simple resolver to analyze wynntils' encoded equipment in chat."
-authors = [
-    {name = "FYWinds", email = "i@windis.cn"},
-]
-dependencies = [
-]
+authors = [{ name = "FYWinds", email = "i@windis.cn" }]
+dependencies = []
 requires-python = ">=3.8"
 readme = "readme.md"
-license = {text = "MIT"}
+license = { text = "GLWTPL" }
 keywords = ["wynntils", "resolver", "wynncraft"]
 classifiers = [
     "Programming Language :: Python :: 3.8",
@@ -25,15 +22,9 @@ Documentation = "https://github.com/fywinds/WynntilsResolver"
 Changelog = "https://github.com/fywinds/WynntilsResolver"
 
 
-
 [project.optional-dependencies]
-dev = [
-    "black==23.3.0",
-    "ruff==0.0.263",
-]
-cli = [
-    "typer[all]==0.8.0",
-]
+dev = ["black==23.3.0", "ruff==0.0.263"]
+cli = ["typer[all]==0.8.0"]
 
 [build-system]
 requires = ["pdm-backend"]
@@ -41,8 +32,8 @@ build-backend = "pdm.backend"
 
 
 [tool.pdm.build]
-package-dir="src"
-include=["src/wynntilsresolver/"]
+package-dir = "src"
+include = ["src/wynntilsresolver/"]
 
 
 [tool.ruff]
@@ -52,4 +43,4 @@ src = ["src/wynntilsresolver"]
 
 [tool.black]
 line-length = 120
-target-version = ["py38","py39", "py310", "py311"]
+target-version = ["py38", "py39", "py310", "py311"]
