@@ -2,7 +2,7 @@
 Author       : FYWinds i@windis.cn
 Date         : 2023-05-01 09:20:21
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2023-05-01 14:40:10
+LastEditTime : 2023-05-07 17:56:38
 FilePath     : /src/wynntilsresolver/model.py
 
 Copyright (c) 2023 by FYWinds
@@ -35,7 +35,7 @@ class Powder(Enum):
 class Item:
     name: str
     """The name of the item"""
-    ids: List[float]
+    ids: List[int]
     """The roll values of the item, sorted in wynntils' item identification order
     Can calculate by multiplying the id's base value"""
     powders: List[Powder]

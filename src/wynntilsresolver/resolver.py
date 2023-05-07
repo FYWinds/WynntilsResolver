@@ -2,8 +2,8 @@
 Author       : FYWinds i@windis.cn
 Date         : 2023-05-01 09:08:08
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2023-05-01 11:30:04
-FilePath     : /wynntilsresolver/resolver.py
+LastEditTime : 2023-05-07 17:56:51
+FilePath     : /src/wynntilsresolver/resolver.py
 
 Copyright (c) 2023 by FYWinds
 All Rights Reserved.
@@ -55,12 +55,11 @@ class Resolver:
             ids = self._decode_numbers(m.group("Ids"))
             powders = self._decode_numbers(m.group("Powders"))
             rerolls = self._decode_numbers(m.group("Rerolls"))[0]
-            ids = [((i / 4) + 30) / 100 for i in ids]  # id rolls from 0.3 to 1.3
             return Item(name, ids, self._decode_powders(powders), rerolls)
         else:
             raise ItemNotValidError(f"Given text {text} is not a valid encoded item.")
 
-    def decode_to_json(self, text) -> dict:
+    def decode_to_json(self, text: str) -> dict:
         return dataclasses.asdict(self.decode(text))
 
     def _decode_powders(self, powders: List[int]) -> List[Powder]:

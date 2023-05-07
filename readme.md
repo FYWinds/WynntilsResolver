@@ -17,9 +17,19 @@ Use as a package
 from wynntilsresolver import resolver
 
 print(resolver.decode("󵿰Warp󵿲󵃨󵄴󵁤󵀠󵁤󵂄󵅥󵀀󵃌󵿲󵃗󵀄󵿱"))
-# Item(name='Warp', ids=[0.88, 1.07, 0.55, 0.38, 0.55, 0.63, 1.1925, 0.3, 0.81], powders=[AIR, AIR, AIR], rerolls=4)
+# Item(name='Warp', ids=[232, 308, 100, 32, 100, 132, 357, 0, 204], powders=[AIR, AIR, AIR], rerolls=4)
 print(resolver.decode_to_json("󵿰Warp󵿲󵃨󵄴󵁤󵀠󵁤󵂄󵅥󵀀󵃌󵿲󵃗󵀄󵿱"))
-# {'name': 'Warp', 'ids': [0.88, 1.07, 0.55, 0.38, 0.55, 0.63, 1.1925, 0.3, 0.81], 'powders': ['AIR', 'AIR', 'AIR'], 'rerolls': 4}
+# {'name': 'Warp', 'ids': [232, 308, 100, 32, 100, 132, 357, 0, 204], 'powders': ['AIR', 'AIR', 'AIR'], 'rerolls': 4}
+```
+
+> The calculation of the true roll value will rely on the identifications differ between the items.
+> Please calculate using the following algorithm:
+
+```python
+if baseValue > 100:
+    trueRoll = ((id/4 + 30) / 100) * baseValue
+else:
+    trueRoll = idRange.low + id/4
 ```
 
 Or initialite with your own match pattern
@@ -31,8 +41,10 @@ resolver = Resolver(pattern=re.compile(...))
 ```
 
 Use the cli
+
+This will defaulted decode the item into json format
 ```bash
 pip install wynntilsresolver[cli]
 python -m wynntilsresolver 󵿰Warp󵿲󵃨󵄴󵁤󵀠󵁤󵂄󵅥󵀀󵃌󵿲󵃗󵀄󵿱 
-# IN some terminal environment, you are not able to input some of the unicode string and will result in an ItemNotValidError
+# In some terminal environment, you are not able to input some of the unicode string and will result in an ItemNotValidError
 ```
