@@ -2,7 +2,7 @@
 Author       : FYWinds i@windis.cn
 Date         : 2023-05-01 09:20:21
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2023-05-07 17:56:38
+LastEditTime : 2023-05-09 12:36:10
 FilePath     : /src/wynntilsresolver/model.py
 
 Copyright (c) 2023 by FYWinds
@@ -35,12 +35,12 @@ class Powder(Enum):
 class Item:
     name: str
     """The name of the item"""
-    ids: List[int]
+    ids: List[int] = dataclasses.field(default_factory=list)
     """The roll values of the item, sorted in wynntils' item identification order
     Can calculate by multiplying the id's base value"""
-    powders: List[Powder]
+    powders: List[Powder] = dataclasses.field(default_factory=list)
     """Powders on the item, without tier"""
-    rerolls: int
+    rerolls: int = 0
     """Rerolls of the item"""
 
 

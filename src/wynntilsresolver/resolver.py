@@ -2,7 +2,7 @@
 Author       : FYWinds i@windis.cn
 Date         : 2023-05-01 09:08:08
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2023-05-07 17:56:51
+LastEditTime : 2023-05-09 12:38:27
 FilePath     : /src/wynntilsresolver/resolver.py
 
 Copyright (c) 2023 by FYWinds
@@ -72,6 +72,8 @@ class Resolver:
         return plist
 
     def _decode_string(self, text: str) -> str:
+        if not text:
+            return ""
         decoded: str = ""
         for i in text:
             value = ord(i) - ord(_OFFSET) + 32
@@ -79,6 +81,8 @@ class Resolver:
         return decoded
 
     def _decode_numbers(self, text: str) -> List[int]:
+        if not text:
+            return []
         decoded: list[int] = []
         for i in text:
             decoded.append(ord(i) - ord(_OFFSET))
