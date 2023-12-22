@@ -1,6 +1,6 @@
 [project]
 name = "WynntilsResolver"
-version = "0.2.0"
+version = "0.2.4"
 description = "A simple resolver to analyze wynntils' encoded equipment in chat."
 authors = [
     { name = "FYWinds", email = "i@windis.cn" },
@@ -45,13 +45,13 @@ requires = [
 build-backend = "pdm.backend"
 
 [tool.pdm.build]
-package-dir = "src"
+package-dir = "wynntilsresolver"
 
 [tool.ruff]
 line-length = 120
 target-version = "py38"
 src = [
-    "src/wynntilsresolver",
+    "wynntilsresolver",
 ]
 
 [tool.black]

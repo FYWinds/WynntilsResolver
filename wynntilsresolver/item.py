@@ -2,7 +2,7 @@
 Author       : FYWinds i@windis.cn
 Date         : 2023-12-14 09:22:08
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2023-12-22 17:14:29
+LastEditTime : 2023-12-22 17:57:42
 FilePath     : /src/wynntilsresolver/item.py
 """
 from dataclasses import dataclass
@@ -64,13 +64,13 @@ def parse_identification(
         id_data = [data[i : i + 2] for i in range(0, id_num * 2, 2)]
 
         for id in item_metadata["identifications"].keys():
-            if id not in {x[0] for x in id_data}:
+            if id_map[id] not in {x[0] for x in id_data}:
                 identifications.append(
                     Identification(
                         id=id,
                         internal_id=id_map[id],
                         base=item_metadata["identifications"][id],
-                        roll=-1,
+                        roll=-1,  # -1 represents pre-identified
                         value=item_metadata["identifications"][id],
                     )
                 )
