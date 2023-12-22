@@ -3,9 +3,10 @@ build/**
 dist/**
 **.pyc
 test.py
+temp/**
 
 # pdm
-.pdm.toml
+.pdm-python
 
 # Vscode
 **.code-workspace
