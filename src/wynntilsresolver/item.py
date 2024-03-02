@@ -2,9 +2,10 @@
 Author       : FYWinds i@windis.cn
 Date         : 2023-12-14 09:22:08
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2023-12-22 17:57:42
+LastEditTime : 2024-01-13 23:01:57
 FilePath     : /src/wynntilsresolver/item.py
 """
+
 from dataclasses import dataclass
 from typing import Dict, List, Tuple, Union
 
@@ -303,9 +304,7 @@ class GearItem(Item):
         }
 
 
-class CustomItem(Item):
-    ...
+class CustomItem(Item): ...
 
 
-class RecipeItem(Item):
-    ...
+class RecipeItem(Item): ...

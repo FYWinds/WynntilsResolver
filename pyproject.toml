@@ -1,12 +1,12 @@
 [project]
 name = "WynntilsResolver"
-version = "0.3.0"
+version = "1.0.0"
 description = "A simple resolver to analyze wynntils' encoded equipment in chat."
 authors = [
     { name = "FYWinds", email = "i@windis.cn" },
 ]
 dependencies = [
-    "apscheduler==3.10.4",
+    "httpx==0.27.0",
 ]
 requires-python = ">=3.8"
 readme = "readme.md"
@@ -24,7 +24,7 @@ classifiers = [
 ]
 
 [project.license]
-text = "GLWTPL"
+text = "MIT"
 
 [project.urls]
 Homepage = "https://github.com/fywinds/WynntilsResolver"
@@ -34,8 +34,7 @@ Changelog = "https://github.com/fywinds/WynntilsResolver"
 
 [project.optional-dependencies]
 dev = [
-    "ruff==0.1.8",
-    "mypy==1.7.1",
+    "ruff==0.3.0",
 ]
 
 [build-system]
@@ -47,8 +46,29 @@ build-backend = "pdm.backend"
 [tool.ruff]
 line-length = 120
 target-version = "py38"
+exclude = [
+    "temp/*",
+]
 src = [
     "src/wynntilsresolver",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "W",
+    "F",
+    "UP",
+    "C4",
+    "T10",
+    "T20",
+    "PYI",
+    "PT",
+    "Q",
+]
+ignore = [
+    "E402",
+    "UP037",
 ]
 
 [tool.black]

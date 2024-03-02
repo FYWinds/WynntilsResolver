@@ -12,13 +12,27 @@ pip install wynntilsresolver -U
 
 ### Usage
 ```python
-from wynntilsresolver import Item
+from typing import Optional
 
-text_toxo = "󰀀󰄀󰉔󶽸󶽰󶱡󷍭󶽳󶥳󰀃󰔀󱱛󲅀󱴰󴽓󲉴󰓆󳿿"
+from wynntilsresolver.blocks import GearItem, Name,Identifications, Reroll, Powder, Shiny
+from wynntilsresolver.resolver import Resolver
 
-item = Item.from_utf16(
-    text_toxo,
-    id_map,
-    shiny_map,
-    item_map,
-).dump()
+# Create a custom resolver like this
+class MyResolver2(Resolver):
+    item_type: GearItem
+    name: Name
+    identifications: Optional[Identifications]
+    reroll: Optional[Reroll]
+    powder: Optional[Powder]
+    shiny: Optional[Shiny]
+
+shiny_warp = "󰀀󰄀󰉗󶅲󷀀󰌉󰀘󵜢󴵅󶈑󴝑󷐙󵀄󶸥󵠦󶠄󰌃󿞼󰘄󸨁􏿮"
+
+# Decode from Artemis shared utf16 text
+b = MyResolver2.from_utf16(shiny_warp)
+
+print(b.name.name) # Warp
+if b.identifications:
+    # Identification(id='rawAgility', internal_id=41, base=20, roll=-1, value=20)
+    b.identifications.identifications[0]
+```
