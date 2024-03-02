@@ -2,7 +2,7 @@
 Author       : FYWinds i@windis.cn
 Date         : 2024-02-28 21:53:42
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2024-03-01 20:49:44
+LastEditTime : 2024-03-01 22:35:35
 FilePath     : /src/wynntilsresolver/resolver.py
 """
 
@@ -45,10 +45,10 @@ class ResolverMeta(type):
         for k, v in annotations.items():
             # If the block is Optional[Block]
             if get_origin(v) == Union and type(None) in (vtype := get_args(v)):
-                if len(vtype) != 2:
-                    raise ResolverDefinitionError(f"Union type {k} must be Optional[Block], got {v}")
                 v = next(x for x in vtype if x is not None)
                 if issubclass(v, Block):
+                    if len(vtype) != 2:
+                        raise ResolverDefinitionError(f"Union type {k} must be Optional[Block], got {v}")
                     if v in item_type._required_blocks:
                         raise ResolverDefinitionError(
                             f"Block {k} is in ItemType's required blocks, cannot be optional."
