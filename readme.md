@@ -13,7 +13,7 @@ pip install wynntilsresolver -U
 ### Usage
 #### Use Predefined Resolvers
 ```python
-from wynntilsresolver.item import GearItemResolver
+from wynntilsresolver import GearItemResolver
 
 shiny_warp = "󰀀󰄀󰉗󶅲󷀀󰌉󰀘󵜢󴵅󶈑󴝑󷐙󵀄󶸥󵠦󶠄󰌃󿞼󰘄󸨁􏿮"
 sw = GearItemResolver.from_utf16(shiny_warp)
@@ -68,4 +68,41 @@ print(b.name.name) # Warp
 if b.identifications:
     # Identification(id='rawAgility', internal_id=41, base=20, roll=-1, value=20)
     b.identifications.identifications[0]
+```
+
+### Benchmark
+
+#### Resolver Creation With Cache
+> [!IMPORTANT]
+> The benchmark is done with data files downloaded to local.
+> For each 24 hours, the cache will be updated and will take several seconds depending on the network speed.
+```
+> hyperfine --warmup 3 'python ./temp/benchmark_resolver.py'
+Benchmark 1: python ./temp/benchmark_resolver.py
+  Time (mean ± σ):     584.0 ms ±   5.4 ms    [User: 112.8 ms, System: 161.2 ms]
+  Range (min … max):   577.5 ms … 594.0 ms    10 runs
+```
+Script: 
+```python
+from wynntilsresolver.item import GearItemResolver
+
+shiny_warp = "󰀀󰄀󰉗󶅲󷀀󰌉󰀘󵜢󴵅󶈑󴝑󷐙󵀄󶸥󵠦󶠄󰌃󿞼󰘄󸨁􏿮"
+
+sw = GearItemResolver.from_utf16(shiny_warp)
+```
+
+#### Resolving an GearItem from utf16 string
+```
+> python ./temp/benchmark_decode.py
+Tested 10000 times, time elapsed: 0.71 seconds. Estimated qps: 14146
+```
+Script: 
+```python
+import timeit
+
+from wynntilsresolver import GearItemResolver
+shiny_warp = "󰀀󰄀󰉗󶅲󷀀󰌉󰀘󵜢󴵅󶈑󴝑󷐙󵀄󶸥󵠦󶠄󰌃󿞼󰘄󸨁􏿮"
+
+time_elapsed = timeit.timeit('GearItemResolver.from_utf16(shiny_warp)', globals=globals(), number=10000)
+print(f"Tested 10000 times, time elapsed: {time_elapsed:.2f} seconds. Estimated qps: {10000 / time_elapsed:.0f}")
 ```
