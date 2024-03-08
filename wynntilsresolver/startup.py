@@ -2,8 +2,8 @@
 Author       : FYWinds i@windis.cn
 Date         : 2024-02-29 15:48:21
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2024-02-29 21:17:55
-FilePath     : /src/wynntilsresolver/startup.py
+LastEditTime : 2024-03-08 15:25:11
+FilePath     : /wynntilsresolver/startup.py
 """
 
 import asyncio
@@ -14,7 +14,7 @@ import time
 
 import httpx
 
-from wynntilsresolver.utils import run_async
+from .utils import run_async
 
 if os.name == "nt":
     DATA_LOCATION = pathlib.Path.home() / "AppData" / "Local" / "wynntilsresolver"

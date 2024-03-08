@@ -2,8 +2,8 @@
 Author       : FYWinds i@windis.cn
 Date         : 2024-01-13 23:06:55
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2024-03-01 16:55:14
-FilePath     : /src/wynntilsresolver/blocks/block.py
+LastEditTime : 2024-03-08 15:15:07
+FilePath     : /wynntilsresolver/blocks/block.py
 """
 
 from abc import ABC, abstractmethod

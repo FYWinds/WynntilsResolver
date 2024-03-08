@@ -2,8 +2,8 @@
 Author       : FYWinds i@windis.cn
 Date         : 2024-02-29 13:23:08
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2024-03-01 09:44:58
-FilePath     : /src/wynntilsresolver/blocks/identification.py
+LastEditTime : 2024-03-08 15:47:46
+FilePath     : /wynntilsresolver/blocks/identification.py
 """
 
 import json

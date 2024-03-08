@@ -2,7 +2,7 @@
 Author       : FYWinds i@windis.cn
 Date         : 2024-03-01 22:17:20
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2024-03-07 18:59:57
+LastEditTime : 2024-03-08 15:29:27
 FilePath     : /tests/test_resolver.py
 """
 
@@ -91,15 +91,15 @@ def test_resolver_decode(capsys):
 
     # Test drop unkonwn bytes
     test_item = [0, 0, 1, 0, 2, 66, 111, 110, 100, 101, 114, 0, 3, 2, 1, 255]
-    item = TestResolver(test_item, drop_unknown=True)
+    item = TestResolver.from_bytes(test_item, drop_unknown=True)
     assert item.name.name == "Bonder"
     with pytest.raises(ParseFailed):
-        TestResolver(test_item, drop_unknown=False)
+        TestResolver.from_bytes(test_item, drop_unknown=False)
 
     # Missing bytes for required blocks
     test_item = [0, 0, 1, 0, 255]
     with pytest.raises(ParseFailed):
-        TestResolver(test_item)
+        TestResolver.from_bytes(test_item)
 
     # Missing bytes for optional blocks, setting to None
     class TestResolver2(Resolver):
@@ -107,7 +107,7 @@ def test_resolver_decode(capsys):
         name: Optional[Name]
 
     test_item = [0, 0, 1, 255]
-    item = TestResolver2(test_item)
+    item = TestResolver2.from_bytes(test_item)
     assert item.name is None
 
 

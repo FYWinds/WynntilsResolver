@@ -2,7 +2,7 @@
 Author       : FYWinds i@windis.cn
 Date         : 2024-02-28 21:53:42
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2024-03-07 18:45:21
+LastEditTime : 2024-03-08 15:29:44
 FilePath     : /wynntilsresolver/resolver.py
 """
 
@@ -10,9 +10,9 @@ import inspect
 from collections import OrderedDict
 from typing import Any, Dict, List, Tuple, Type, TypeVar, Union, get_args, get_origin
 
-from wynntilsresolver.blocks import Block, End, ItemType, Version
-from wynntilsresolver.exception import InvalidStartByte, ParseFailed, ResolverDefinitionError
-from wynntilsresolver.utils import decode_utf16, encode_utf16, get_annotations_meta
+from .blocks import Block, End, ItemType, Version
+from .exception import InvalidStartByte, ParseFailed, ResolverDefinitionError
+from .utils import decode_utf16, encode_utf16, get_annotations_meta
 
 
 class ResolverMeta(type):
@@ -81,7 +81,9 @@ class Resolver(metaclass=ResolverMeta):
     _attrs: Dict[str, Type[Block]]
     item_type: ItemType
 
-    def __init__(self, data: List[int], drop_unknown: bool = False):
+    @classmethod
+    def from_bytes(cls: Type[T], data: List[int], drop_unknown: bool = False) -> T:
+        self = cls()
         data = data.copy()
         attrs = self._attrs.copy()
         required_blocks = {k: v for k, v in attrs.items() if v in self.item_type._required_blocks}
@@ -118,6 +120,8 @@ class Resolver(metaclass=ResolverMeta):
         for k, v in optional_blocks.items():
             setattr(self, k, None)
 
+        return self
+
     def to_bytes(self) -> List[int]:
         data = []
         for k, v in self._attrs.items():
@@ -127,7 +131,7 @@ class Resolver(metaclass=ResolverMeta):
 
     @classmethod
     def from_utf16(cls: Type[T], data: str, drop_unknown: bool = False) -> T:
-        return cls(decode_utf16(data), drop_unknown)
+        return cls.from_bytes(decode_utf16(data), drop_unknown)
 
     def to_utf16(self):
         return encode_utf16(self.to_bytes())
