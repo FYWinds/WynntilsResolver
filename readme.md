@@ -1,5 +1,5 @@
 # Wynntils Resolver
-## A simple resolver to anaslyeze wynntils' coded equipment in chat.
+A simple resolver to analyze Artemis' encoded items in chat.
 
 ### Requires
 [![Python >= 3.8](https://img.shields.io/badge/python>=3.8-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://www.python.org/)
