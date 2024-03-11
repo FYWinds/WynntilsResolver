@@ -164,11 +164,20 @@ def run_async(func: Callable[..., Coroutine[Any, Any, R]]) -> Callable[..., R]:
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs) -> R:
-        loop = asyncio.get_event_loop()
-        if loop.is_running():
-            return loop.run_until_complete(func(*args, **kwargs))
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            close_loop = True
         else:
-            return asyncio.run(func(*args, **kwargs))
+            close_loop = False
+
+        try:
+            return loop.run_until_complete(func(*args, **kwargs))
+        finally:
+            if close_loop:
+                loop.close()
 
     return wrapper
 

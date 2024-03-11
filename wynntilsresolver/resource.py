@@ -2,8 +2,8 @@
 Author       : FYWinds i@windis.cn
 Date         : 2024-02-29 15:48:21
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2024-03-08 15:25:11
-FilePath     : /wynntilsresolver/startup.py
+LastEditTime : 2024-03-10 22:39:35
+FilePath     : /wynntilsresolver/resource.py
 """
 
 import asyncio
@@ -50,19 +50,64 @@ async def startup():
     await client.aclose()
 
 
+last_update = 0
+
+
+def should_update():
+    global last_update
+    """Check if the data should be updated."""
+    if (time.time() - last_update) <= 86400:
+        return False
+    if not ITEMDB_PATH.exists() or time.time() - os.path.getmtime(ITEMDB_PATH) > 86400:
+        return True
+    if not SHINY_TABLE_PATH.exists() or time.time() - os.path.getmtime(SHINY_TABLE_PATH) > 86400:
+        return True
+    if not ID_TABLE_PATH.exists() or time.time() - os.path.getmtime(ID_TABLE_PATH) > 86400:
+        return True
+    last_update = time.time()
+    return False
+
+
+if not should_update():
+    with open(ITEMDB_PATH, encoding="utf-8") as f:
+        ITEMDB = json.load(f)
+
+    with open(ID_TABLE_PATH, encoding="utf-8") as f:
+        ID_TABLE = json.load(f)
+
+    with open(SHINY_TABLE_PATH, encoding="utf-8") as f:
+        SHINY_TABLE = json.load(f)
+else:
+    ITEMDB = {}
+    ID_TABLE = {}
+    SHINY_TABLE = []
+
+
+RESOURCES = {
+    "ITEMDB": ITEMDB,
+    "ID_TABLE": ID_TABLE,
+    "SHINY_TABLE": SHINY_TABLE,
+}
+
+
 async def fetch_item_db(client: httpx.AsyncClient):
     data = await client.get(ITEMDB_FULL_URL)
     with open(DATA_LOCATION / "itemdb.json", "w", encoding="utf-8") as f:
         json.dump(data.json(), f, ensure_ascii=False)
+    RESOURCES["ITEM_DB"] = data.json()
 
 
 async def fetch_shiny_table(client: httpx.AsyncClient):
+    global SHINY_TABLE
     data = await client.get(SHINY_TABLE_URL)
     with open(DATA_LOCATION / "shiny_stats.json", "w", encoding="utf-8") as f:
         json.dump(data.json(), f, ensure_ascii=False)
+    RESOURCES["SHINY_TABLE"] = data.json()
 
 
 async def fetch_id_table(client: httpx.AsyncClient):
+    global ID_TABLE
     data = await client.get(ID_TABLE_URL)
     with open(DATA_LOCATION / "id_keys.json", "w", encoding="utf-8") as f:
         json.dump(data.json(), f, ensure_ascii=False)
+    RESOURCES["ID_TABLE"] = data.json()

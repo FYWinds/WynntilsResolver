@@ -2,7 +2,7 @@
 Author       : FYWinds i@windis.cn
 Date         : 2024-02-28 21:53:42
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2024-03-08 15:29:44
+LastEditTime : 2024-03-10 22:25:07
 FilePath     : /wynntilsresolver/resolver.py
 """
 
@@ -13,7 +13,7 @@ from typing import Any, Dict, List, Tuple, Type, TypeVar, Union, get_args, get_o
 from .blocks import Block, End, ItemType, Version
 from .exception import InvalidStartByte, ParseFailed, ResolverDefinitionError
 from .utils import decode_utf16, encode_utf16, get_annotations_meta
-
+from .resource import should_update, startup
 
 class ResolverMeta(type):
     def __prepare__(cls, name: str, **kwargs):
@@ -119,6 +119,9 @@ class Resolver(metaclass=ResolverMeta):
         # Set all unparsed optional block to None
         for k, v in optional_blocks.items():
             setattr(self, k, None)
+
+        if should_update():
+            startup()
 
         return self
 

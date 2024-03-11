@@ -2,25 +2,18 @@
 Author       : FYWinds i@windis.cn
 Date         : 2024-02-29 13:23:08
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2024-03-08 15:47:46
+LastEditTime : 2024-03-10 22:39:54
 FilePath     : /wynntilsresolver/blocks/identification.py
 """
 
-import json
 from dataclasses import dataclass
 from typing import Dict, List
 
 from wynntilsresolver.exception import MissingInfo
-from wynntilsresolver.startup import ID_TABLE_PATH, ITEMDB_PATH
+from wynntilsresolver.resource import RESOURCES
 
 from .block import Block
 from .name import Name
-
-with open(ITEMDB_PATH, encoding="utf-8") as f:
-    ITEMDB = json.load(f)
-
-with open(ID_TABLE_PATH, encoding="utf-8") as f:
-    ID_TABLE = json.load(f)
 
 
 def _extract_item_name(blocks: List[Block]) -> str:
@@ -32,11 +25,11 @@ def _extract_item_name(blocks: List[Block]) -> str:
 
 
 def _id_from_str(id: str) -> int:
-    return ID_TABLE[id]
+    return RESOURCES["ID_TABLE"][id]
 
 
 def _id_from_int(id: int) -> str:
-    return next(k for k, v in ID_TABLE.items() if v == id)
+    return next(k for k, v in RESOURCES["ID_TABLE"].items() if v == id)
 
 
 @dataclass
@@ -95,7 +88,7 @@ class Identifications(Block):
 
         identifications: List[Identification] = []
         name = _extract_item_name(parsed_blocks)
-        item_identifications_meta = ITEMDB[name]["identifications"]
+        item_identifications_meta = RESOURCES["ITEMDB"][name]["identifications"]
 
         if not extend:
             for id, meta in item_identifications_meta.items():
