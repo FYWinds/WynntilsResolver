@@ -2,7 +2,7 @@
 Author       : FYWinds i@windis.cn
 Date         : 2024-02-29 15:48:21
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2024-03-10 23:05:48
+LastEditTime : 2024-03-21 13:10:01
 FilePath     : /wynntilsresolver/startup.py
 """
 
@@ -31,11 +31,16 @@ ITEMDB_PATH = DATA_LOCATION / "itemdb.json"
 SHINY_TABLE_PATH = DATA_LOCATION / "shiny_stats.json"
 ID_TABLE_PATH = DATA_LOCATION / "id_keys.json"
 
+# Read proxy from environment variable.
+http_proxy = os.environ.get("http_proxy") or os.environ.get("HTTP_PROXY")
+https_proxy = os.environ.get("https_proxy") or os.environ.get("HTTPS_PROXY")
+all_proxy = os.environ.get("all_proxy") or os.environ.get("ALL_PROXY")
+
 
 @run_async
 async def startup():
     """Fetch all data from Wynncraft API and Artemis Repository."""
-    client = httpx.AsyncClient()
+    client = httpx.AsyncClient(proxy=http_proxy or https_proxy or all_proxy)
 
     # Fetch the file only if was not updated within 24 hours.
     tasks = []
