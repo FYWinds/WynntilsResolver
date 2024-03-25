@@ -2,11 +2,12 @@
 Author       : FYWinds i@windis.cn
 Date         : 2024-02-29 13:23:08
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2024-03-08 15:47:46
+LastEditTime : 2024-03-25 02:39:22
 FilePath     : /wynntilsresolver/blocks/identification.py
 """
 
 import json
+import math
 from dataclasses import dataclass
 from typing import Dict, List
 
@@ -55,7 +56,7 @@ class Identification:
     @classmethod
     def from_simple(cls, id: str, internal_id: int, meta: Dict[str, int], roll: int) -> "Identification":
         id_base = meta["raw"]
-        id_value = round(id_base * (roll / 100))
+        id_value = cls.special_round(id_base * (roll / 100))
         return cls(id, internal_id, id_base, roll, id_value)
 
     @classmethod
@@ -64,7 +65,7 @@ class Identification:
         roll = data[0]
         del data[0]
         id_name = _id_from_int(id)
-        id_value = round(base * (roll / 100))
+        id_value = cls.special_round(base * (roll / 100))
         return cls(id_name, id, base, roll, id_value)
 
     def to_simple(self) -> List[int]:
@@ -74,6 +75,10 @@ class Identification:
     def to_extend(self) -> List[int]:
         # TODO
         raise NotImplementedError
+
+    @staticmethod
+    def special_round(num: float) -> int:
+        return math.floor(num + 0.5)
 
 
 class Identifications(Block):

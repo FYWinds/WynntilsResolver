@@ -2,7 +2,7 @@
 Author       : FYWinds i@windis.cn
 Date         : 2024-02-28 21:53:42
 LastEditors  : FYWinds i@windis.cn
-LastEditTime : 2024-03-08 15:29:44
+LastEditTime : 2024-03-21 13:41:00
 FilePath     : /wynntilsresolver/resolver.py
 """
 
@@ -16,7 +16,8 @@ from .utils import decode_utf16, encode_utf16, get_annotations_meta
 
 
 class ResolverMeta(type):
-    def __prepare__(cls, name: str, **kwargs):
+    @classmethod
+    def __prepare__(cls, name: str, bases: Tuple[type, ...], /, **kwds: Any):
         return OrderedDict()
 
     def __new__(cls, name: str, bases: Tuple[type], attrs: Dict[str, Any]):
@@ -91,6 +92,7 @@ class Resolver(metaclass=ResolverMeta):
         parsed_blocks = []
 
         while data:
+            k = None
             try:
                 for k, v in attrs.items():
                     if data[0] == v._start_byte:
