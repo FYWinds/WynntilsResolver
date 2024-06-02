@@ -1,6 +1,6 @@
 [project]
 name = "wynntilsresolver"
-version = "1.2.1"
+version = "1.3.0"
 description = "A simple resolver to analyze wynntils' encoded equipment in chat."
 authors = [{ name = "FYWinds", email = "i@windis.cn" }]
 dependencies = ["httpx==0.27.0"]
@@ -43,25 +43,10 @@ exclude = ["temp/*"]
 src = ["wynntilsresolver"]
 
 [tool.ruff.lint]
-select = [
-    "W",   # pycodestyle warnings
-    "E",   # pycodestyle errors
-    "F",   # pyflakes
-    "UP",  # pyupgrade
-    "C4",  # flake8-comprehensions
-    "T10", # flake8-debugger
-    "T20", # flake8-print
-    "PYI", # flake8-pyi
-    "PT",  # flake8-pytest-style
-    "Q",   # flake8-quotes
-]
-ignore = [
-    "E402",  # module-import-not-at-top-of-file
-    "UP037", # quoted_annotation
-]
+select = ["W", "E", "F", "UP", "C4", "T10", "T20", "PYI", "PT", "Q"]
+ignore = ["E402", "UP037"]
 
 [tool.ruff.lint.pyupgrade]
-# keep typing even used from __future__ import annotations
 keep-runtime-typing = true
 
 [tool.pytest.ini_options]

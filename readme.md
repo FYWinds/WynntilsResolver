@@ -70,6 +70,15 @@ if b.identifications:
     b.identifications.identifications[0]
 ```
 
+
+### Environment Variables
+- `DATA_LOCATION`: The directory to store the cache files. Default: `pathlib.Path.home() / "AppData" / "Local" / "wynntilsresolver"` or
+`pathlib.Path.home() / ".local" / "share" / "wynntilsresolver"`
+- `ITEMDB_PATH`: The path to the itemdb file.
+- `SHINY_TABLE_PATH`: The path to the shiny table file.
+- `ID_TABLE_PATH`: The path to the id table file.
+> Note that setting the path to those files will disable auto update.
+
 ### Benchmark
 
 #### Resolver Creation With Cache
