@@ -6,9 +6,9 @@ LastEditTime : 2024-03-21 13:01:18
 FilePath     : /wynntilsresolver/__init__.py
 """
 
-from .startup import startup
+from .datastore import data_store
 
-startup()
+data_store.bootstrap()
 
 from .item import GearItemResolver as GearItemResolver
 from .resolver import Resolver as Resolver

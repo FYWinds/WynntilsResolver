@@ -3,7 +3,9 @@ import functools
 import inspect
 import sys
 import types
-from typing import Any, Callable, Coroutine, Dict, List, ParamSpec, TypeVar
+from typing import Any, Callable, Coroutine, Dict, List, TypeVar
+
+from typing_extensions import ParamSpec
 
 
 def get_annotations_meta(annotation: Dict[str, Any], *, globals=None, locals=None, eval_str=False) -> Dict[str, Any]:

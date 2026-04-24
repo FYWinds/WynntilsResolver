@@ -1,9 +1,9 @@
 [project]
 name = "wynntilsresolver"
-version = "1.4.2"
+version = "1.5.0"
 description = "A simple resolver to analyze wynntils' encoded equipment in chat."
 authors = [{ name = "FYWinds", email = "i@windis.cn" }]
-dependencies = ["httpx==0.27.0"]
+dependencies = ["httpx==0.27.0", "typing-extensions>=4.12.2"]
 requires-python = ">=3.8"
 readme = "readme.md"
 license = "MIT"
@@ -44,10 +44,14 @@ src = ["wynntilsresolver"]
 
 [tool.ruff.lint]
 select = ["W", "E", "F", "UP", "C4", "T10", "T20", "PYI", "PT", "Q"]
-ignore = ["E402", "UP037"]
+ignore = ["E402", "UP037", "PYI034"]
 
 [tool.ruff.lint.pyupgrade]
 keep-runtime-typing = true
 
 [tool.pytest.ini_options]
 addopts = "-n 4 --cov=wynntilsresolver --cov-report xml:cov.xml"
+
+[tool.basedpyright]
+pythonVersion = "3.8"
+typeCheckingMode = "basic"

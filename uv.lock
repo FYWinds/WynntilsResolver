@@ -283,10 +283,11 @@ wheels = [
 
 [[package]]
 name = "wynntilsresolver"
-version = "1.4.1"
+version = "1.5.0"
 source = { editable = "." }
 dependencies = [
     { name = "httpx" },
+    { name = "typing-extensions" },
 ]
 
 [package.optional-dependencies]
@@ -309,6 +310,7 @@ requires-dist = [
     { name = "pytest", marker = "extra == 'test'", specifier = "==8.0.2" },
     { name = "pytest-cov", marker = "extra == 'test'", specifier = "==4.1.0" },
     { name = "pytest-xdist", marker = "extra == 'test'", specifier = "==3.5.0" },
+    { name = "typing-extensions", specifier = ">=4.12.2" },
 ]
 provides-extras = ["test"]
 

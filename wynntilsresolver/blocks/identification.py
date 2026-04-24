@@ -6,22 +6,15 @@ LastEditTime : 2024-03-25 02:39:22
 FilePath     : /wynntilsresolver/blocks/identification.py
 """
 
-import json
 import math
 from dataclasses import dataclass
 from typing import Dict, List
 
+from wynntilsresolver.datastore import data_store
 from wynntilsresolver.exception import MissingInfo
-from wynntilsresolver.startup import ID_TABLE_PATH, ITEMDB_PATH
 
 from .block import Block
 from .name import Name
-
-with open(ITEMDB_PATH, encoding="utf-8") as f:
-    ITEMDB = json.load(f)
-
-with open(ID_TABLE_PATH, encoding="utf-8") as f:
-    ID_TABLE = json.load(f)
 
 
 def _extract_item_name(blocks: List[Block]) -> str:
@@ -30,14 +23,6 @@ def _extract_item_name(blocks: List[Block]) -> str:
             return block.name
     else:
         raise MissingInfo("Item name not found when trying to parse identifications.")
-
-
-def _id_from_str(id: str) -> int:
-    return ID_TABLE[id]
-
-
-def _id_from_int(id: int) -> str:
-    return next(k for k, v in ID_TABLE.items() if v == id)
 
 
 @dataclass
@@ -64,7 +49,7 @@ class Identification:
         base = Block.decode_variable_sized_int(data)
         roll = data[0]
         del data[0]
-        id_name = _id_from_int(id)
+        id_name = data_store.id_from_int(id)
         id_value = cls.special_round(base * (roll / 100))
         return cls(id_name, id, base, roll, id_value)
 
@@ -100,20 +85,20 @@ class Identifications(Block):
 
         identifications: List[Identification] = []
         name = _extract_item_name(parsed_blocks)
-        item_identifications_meta = ITEMDB[name]["identifications"]
+        item_identifications_meta = data_store.itemdb[name]["identifications"]
 
         if not extend:
             for id, meta in item_identifications_meta.items():
                 if isinstance(meta, int):
                     # pre-identified
-                    identifications.append(Identification(id, _id_from_str(id), meta, -1, meta))
+                    identifications.append(Identification(id, data_store.id_from_str(id), meta, -1, meta))
 
             # Truncate data to the length of ids
             id_data = data[: id_num * 2]
             del data[: id_num * 2]
 
             for id, roll in zip(id_data[::2], id_data[1::2]):
-                id_name = _id_from_int(id)
+                id_name = data_store.id_from_int(id)
                 id_meta = item_identifications_meta[id_name]
                 identifications.append(Identification.from_simple(id_name, id, id_meta, roll))
 
@@ -124,7 +109,7 @@ class Identifications(Block):
             for _ in range(id_num_pre):
                 id = data[0]
                 del data[0]
-                id_str = _id_from_int(id)
+                id_str = data_store.id_from_int(id)
                 value = cls.decode_variable_sized_int(data)
                 identifications.append(Identification(id_str, id, value, -1, value))
             for _ in range(id_num):

@@ -6,19 +6,15 @@ LastEditTime : 2024-03-01 20:08:24
 FilePath     : /src/wynntilsresolver/blocks/shiny.py
 """
 
-import json
-from typing import Dict, List
+from typing import List
 
 from wynntilsresolver.blocks.version import Version
-from wynntilsresolver.startup import SHINY_TABLE_PATH
+from wynntilsresolver.datastore import data_store
 
 from .block import Block
 
-with open(SHINY_TABLE_PATH, encoding="utf-8") as f:
-    shiny_table: List[Dict] = json.load(f)
 
-
-def extract_version(parsed_blocks: list["Block"]) -> int:
+def extract_version(parsed_blocks: List["Block"]) -> int:
     for block in parsed_blocks:
         if isinstance(block, Version):
             return block.version
@@ -47,7 +43,7 @@ class Shiny(Block):
         self.reroll = reroll
 
     @classmethod
-    def from_bytes(cls, data, parsed_blocks: list[Block], **kwargs) -> "Shiny":
+    def from_bytes(cls, data, parsed_blocks: List["Block"], **kwargs) -> "Shiny":
         super().from_bytes(data)
         internal_id = data[0]
         del data[0]
@@ -57,7 +53,7 @@ class Shiny(Block):
             reroll = data[0]
             del data[0]
         value = cls.decode_variable_sized_int(data)
-        for shiny in shiny_table:
+        for shiny in data_store.shiny_table:
             if shiny["id"] == internal_id:
                 return cls(shiny["key"], internal_id, shiny["displayName"], value, reroll)
 
@@ -67,7 +63,23 @@ class Shiny(Block):
         return self.encode_with_start([self.internal_id] + self.encode_variable_sized_int(self.value))
 
     def __str__(self) -> str:
-        return f"Shiny(name={self.name}, internal_id={self.internal_id}, display_name={self.display_name}, value={self.value}, reroll={self.reroll})"
+        return (
+            f"Shiny("
+            f"name={self.name}, "
+            f"internal_id={self.internal_id}, "
+            f"display_name={self.display_name}, "
+            f"value={self.value}, "
+            f"reroll={self.reroll}"
+            f")"
+        )
 
     def __repr__(self) -> str:
-        return f"Shiny(name={self.name}, internal_id={self.internal_id}, display_name={self.display_name}, value={self.value}, reroll={self.reroll})"
+        return (
+            f"Shiny("
+            f"name={self.name}, "
+            f"internal_id={self.internal_id}, "
+            f"display_name={self.display_name}, "
+            f"value={self.value}, "
+            f"reroll={self.reroll}"
+            f")"
+        )
