@@ -9,6 +9,7 @@ FilePath     : /wynntilsresolver/resolver.py
 import inspect
 from collections import OrderedDict
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
@@ -91,6 +92,12 @@ class Resolver(metaclass=ResolverMeta):
 
     _attrs: Dict[str, Type[Block]]
     item_type: ItemType
+
+    if TYPE_CHECKING:
+        # Injected by ResolverMeta on every resolver; kept out of runtime annotations
+        # so the metaclass' reserved-name check still rejects user definitions.
+        start: Version
+        end: End
 
     @classmethod
     def from_bytes(cls: Type[T], data: List[int], drop_unknown: bool = False) -> T:

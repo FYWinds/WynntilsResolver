@@ -15,6 +15,15 @@ Artemis encoding versions `0`, `1` and `2` (`ItemTransformingVersion` V1–V3) a
 Since V3 the identification block carries the stat value instead of the internal roll, so `Identification.roll` is
 estimated from the value (the roll closest to `value / base` within the valid range) rather than read from the item.
 
+### CLI
+```bash
+pip install "wynntilsresolver[cli]"
+
+wynntilsresolver "<encoded item>"                 # pretty table
+echo "<encoded item>" | wynntilsresolver --json   # machine-readable, reads stdin
+wynntilsresolver --help
+```
+
 ### Usage
 #### Use Predefined Resolvers
 ```python

@@ -22,6 +22,10 @@ Repository = "https://github.com/fywinds/WynntilsResolver"
 Documentation = "https://github.com/fywinds/WynntilsResolver"
 Changelog = "https://github.com/fywinds/WynntilsResolver"
 
+[project.scripts]
+wynntilsresolver = "wynntilsresolver.cli:app"
+cli = "wynntilsresolver.cli:app"
+
 [build-system]
 requires = ["uv_build>=0.8.7,<0.9.0"]
 build-backend = "uv_build"
@@ -31,10 +35,15 @@ module-name = "wynntilsresolver"
 module-root = ""
 
 [project.optional-dependencies]
-test = ["pytest==8.0.2", "pytest-cov==4.1.0", "pytest-xdist==3.5.0"]
+cli = ["rich>=14.3.4", "typer>=0.20.1"]
 
-[tool.uv]
-dev-dependencies = ["pytest==8.0.2", "pytest-cov==4.1.0", "pytest-xdist==3.5.0"]
+[dependency-groups]
+dev = [
+    "wynntilsresolver[cli]",
+    "pytest==8.0.2",
+    "pytest-cov==4.1.0",
+    "pytest-xdist==3.5.0",
+]
 
 [tool.ruff]
 line-length = 120
