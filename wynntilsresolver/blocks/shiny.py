@@ -8,17 +8,10 @@ FilePath     : /src/wynntilsresolver/blocks/shiny.py
 
 from typing import List
 
-from wynntilsresolver.blocks.version import Version
 from wynntilsresolver.datastore import data_store
 
 from .block import Block
-
-
-def extract_version(parsed_blocks: List["Block"]) -> int:
-    for block in parsed_blocks:
-        if isinstance(block, Version):
-            return block.version
-    return 0
+from .version import extract_version
 
 
 class Shiny(Block):

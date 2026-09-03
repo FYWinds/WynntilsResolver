@@ -79,3 +79,28 @@ def test_decoding_item():
     assert sw2.shiny.display_name == "Mobs Killed"
     assert sw2.shiny.internal_id == 1
     assert sw2.reroll == 2
+
+
+def test_decoding_item_v3():
+    # V3: identifications carry the value, flags and vanilla meter instead of the internal roll
+    cataclysm_v3 = "󰀂󰄀󰉍󶅳󷑥󷉷󶽲󶬠󴍡󷑡󶍬󷥳󶴀󰌆󰁋󰰄󱩌󳐄󰬸󼽁󰔣󴵎󰐟󲔊󰐣󲜊󰐣󰐃󰀅󰋿"
+
+    item = GearItemResolver.from_utf16(cataclysm_v3)
+
+    assert item.name == "Masterwork Cataclysm"
+    assert item.identifications == [
+        Identification(id="rawDexterity", internal_id=47, base=30, roll=-1, value=30),
+        Identification(id="stealing", internal_id=75, base=5, roll=120, value=6),
+        Identification(id="thorns", internal_id=76, base=40, roll=65, value=26),
+        # perfect flag set: roll is the perfect roll of a negative base
+        Identification(id="rawHealth", internal_id=56, base=-6000, roll=70, value=-4200),
+        Identification(id="thunderDamage", internal_id=77, base=31, roll=126, value=39),
+        # spell costs are encoded on Artemis' inverted sign, normalized back to the API's
+        Identification(id="raw1stSpellCost", internal_id=37, base=-4, roll=125, value=-5),
+        Identification(id="raw3rdSpellCost", internal_id=39, base=-4, roll=125, value=-5),
+    ]
+    assert item.powder
+    assert item.powder.powder_slots == 3
+    assert item.powder.powders == []
+    assert item.shiny is None
+    assert item.reroll == 2

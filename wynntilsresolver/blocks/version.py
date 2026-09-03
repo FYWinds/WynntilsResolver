@@ -6,9 +6,16 @@ LastEditTime : 2024-02-29 18:20:02
 FilePath     : /src/wynntilsresolver/blocks/version.py
 """
 
-from typing import List
+from typing import FrozenSet, List
+
+from wynntilsresolver.exception import UnsupportedVersion
 
 from .block import Block
+
+SUPPORTED_VERSIONS: FrozenSet[int] = frozenset({0, 1, 2})
+"""Version bytes this resolver can decode. Mirrors Artemis' ItemTransformingVersion ids:
+0 -> VERSION_1, 1 -> VERSION_2 (shiny rerolls), 2 -> VERSION_3 (identifications encode the value).
+"""
 
 
 class Version(Block):
@@ -22,9 +29,11 @@ class Version(Block):
     @classmethod
     def from_bytes(cls, data: List[int], **kwargs) -> "Version":
         super().from_bytes(data)
-        v = cls(data[0])
+        version = data[0]
+        if version not in SUPPORTED_VERSIONS:
+            raise UnsupportedVersion(f"Unsupported encoding version {version}, supported: {sorted(SUPPORTED_VERSIONS)}")
         del data[0]
-        return v
+        return cls(version)
 
     def to_bytes(self) -> List[int]:
         return self.encode_with_start([self.version])
@@ -34,3 +43,10 @@ class Version(Block):
 
     def __repr__(self) -> str:
         return f"Version({self.version})"
+
+
+def extract_version(parsed_blocks: List[Block]) -> int:
+    for block in parsed_blocks:
+        if isinstance(block, Version):
+            return block.version
+    return 0

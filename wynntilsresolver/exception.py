@@ -35,3 +35,8 @@ class InvalidItemType(ResolverException):
 class MissingInfo(ResolverException):
     def __init__(self, message: str):
         super().__init__(message)
+
+
+class UnsupportedVersion(ResolverException):
+    def __init__(self, message: str):
+        super().__init__(message)

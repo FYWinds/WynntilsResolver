@@ -1,6 +1,6 @@
 [project]
 name = "wynntilsresolver"
-version = "1.5.0"
+version = "1.6.0"
 description = "A simple resolver to analyze wynntils' encoded equipment in chat."
 authors = [{ name = "FYWinds", email = "i@windis.cn" }]
 dependencies = ["httpx==0.27.0", "typing-extensions>=4.12.2"]
