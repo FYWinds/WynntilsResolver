@@ -70,7 +70,7 @@ class DataStore:
 
         self.check_interval = check_interval
 
-        self._cache: Dict[str, object] = dict.fromkeys(_RESOURCE_NAMES, object())
+        self._cache: Dict[str, Optional[object]] = dict.fromkeys(_RESOURCE_NAMES)
         self._mtime: Dict[str, float] = dict.fromkeys(_RESOURCE_NAMES, 0.0)
         self._last_check: Dict[str, float] = dict.fromkeys(_RESOURCE_NAMES, 0.0)
         self._id_table_reverse: Dict[int, str] = {}
